@@ -1,3 +1,6 @@
+# Asynchronous Microservices with Kafka
+![System Architecture](https://github.com/vishwaprotim/Async-Microservices-with-Kafka/blob/main/Architecture.png)
+
 ## Setting up Postgres (Port 8082)
 
 - Get the latest docker image for postgres
