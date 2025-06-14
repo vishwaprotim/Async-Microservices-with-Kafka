@@ -1,0 +1,44 @@
+server:
+  port: 8081
+springdoc:
+  api-docs:
+    path: /doc
+  swagger-ui:
+    path: /
+spring:
+  application.name: Loan Service
+  jpa:
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: none
+    hibernate.show-sql: true
+    properties:
+      hibernate.generate_statistics: false
+  datasource:
+    hikari.connectionTimeout: 20000
+    hikari.maximumPoolSize: 5
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:8082/loan_db
+    username: postgres
+    password: 123
+    initialization-mode: always
+    initialize: true
+  kafka:
+#    consumer:
+#      enable-auto-commit: true
+#      bootstrap-servers: localhost:9092
+#      group-id: himanshu_consumer_group
+#      auto-offset-reset: earliest
+#      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: '*'
+#        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+#        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      topic: user-credit-check
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
