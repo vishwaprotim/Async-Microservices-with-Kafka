@@ -1,0 +1,34 @@
+server:
+  port: 8091
+springdoc:
+  api-docs:
+    path: /doc
+  swagger-ui:
+    path: /
+spring:
+  application.name: Credit Report Service
+  data:
+    mongodb.uri: mongodb://user:123@localhost:8092/credit_report_db?authSource=admin
+  kafka:
+    consumer:
+      topic: user-credit-check
+      enable-auto-commit: true
+      bootstrap-servers: localhost:9092
+      group-id: loan-processing-system-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+#        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+#        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      topic: user-credit-report
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
