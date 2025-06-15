@@ -23,8 +23,6 @@ spring:
           json:
             trusted:
               packages: '*'
-#        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-#        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
     producer:
       topic: user-credit-report
       bootstrap-servers: localhost:9092

@@ -23,20 +23,19 @@ spring:
     initialization-mode: always
     initialize: true
   kafka:
-#    consumer:
-#      enable-auto-commit: true
-#      bootstrap-servers: localhost:9092
-#      group-id: himanshu_consumer_group
-#      auto-offset-reset: earliest
-#      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-#      properties:
-#        spring:
-#          json:
-#            trusted:
-#              packages: '*'
-#        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-#        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    consumer:
+      topic: user-credit-report
+      enable-auto-commit: true
+      bootstrap-servers: localhost:9092
+      group-id: loan-processing-system-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
     producer:
       topic: user-credit-check
       bootstrap-servers: localhost:9092

@@ -19,8 +19,8 @@ public record LoanService(LoanRepository repository,
 
     public UserLoan applyLoan(UserLoanDao userLoanDao){
         UserLoan userLoan = repository.save(userLoanDao.toEntity());
-        log.info("This is the topic name: {}", topic);
         kafkaTemplate.send(topic, userLoan.getUserId(), userLoan.getLoanId());
+        log.info("\nLoan Application placed successfully: {}", userLoan.getLoanId());
         return userLoan;
     }
 
