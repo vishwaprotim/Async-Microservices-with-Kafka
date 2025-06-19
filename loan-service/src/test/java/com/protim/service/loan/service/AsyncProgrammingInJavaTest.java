@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.*;
 
+@Data @Builder class Container { int dataPointOne, dataPointTwo; }
+
+
 public class AsyncProgrammingInJavaTest {
 
     /*
@@ -62,12 +65,55 @@ public class AsyncProgrammingInJavaTest {
         Assertions.assertEquals(10, retrievedContainer.getDataPointOne());
         Assertions.assertEquals(20, retrievedContainer.getDataPointTwo());
     }
-}
+
+    @Test
+    void checkCompletableFutureSupplyRunAsync() throws Exception {
+
+        // Using supplyAsync()
+        // This is used when we are expecting an output from the submitted TASK.
+        // Eventually we must use the get() call to retrieve the output.
+        // Use cases - Let's say a server has submitted multiple tasks to the delegates
+        // in one go and has started processing other data. But before returning the response
+        // to client, the server must retrieve the task output.
+        // Hence, it now is waiting for them to finish.
+        // get() is BLOCKING, i.e., if TASK is not finished, it pauses the main thread and
+        // waits for the task to be finished.
+        CompletableFuture<Container> completableFuture = CompletableFuture
+                .supplyAsync(
+                        () -> Container.builder().dataPointOne(10).build()
+                ) // TASK submitted at this stage
+                .thenApply(container -> {
+                    container.setDataPointTwo(20);
+                    return container;
+                });
+        // Main thread can continue further while above logic keeps processing.
+        // .
+        // .
+        // .
+        // Eventually the main thread will need the output from submitted task
+        // To fetch it we use the get() call. As get() is blocking, it will
+        // check if the result is ready and provide it to the main thread.
+        // Otherwise, it will keep the main thread waiting, unless the task is done.
+        Container retrievedContainer = completableFuture.get();
 
 
-@Data
-@Builder
-class Container {
-    int dataPointOne;
-    int dataPointTwo;
+        // Using runAsync()
+        // This is used when we are following the delegate and forget pattern.
+        // The completableFuture task starts in its own thread and as
+        // the main thread has nothing to do with the result/exception
+        // it can start processing the next item.
+        CompletableFuture<Void> completableFutureVoid = CompletableFuture
+                .supplyAsync(
+                    () -> Container.builder().dataPointOne(10).build()
+                ).thenApply(container -> {
+                    container.setDataPointTwo(20);
+                    return container;
+                }).thenApply(container -> {
+                    Assertions.assertEquals(10, container.getDataPointOne());
+                    Assertions.assertEquals(20, container.getDataPointTwo());
+                    return container;
+                }).thenRunAsync(() -> System.out.println("Task Completed Successfully"));
+        // Main Thread can continue further while above logic keeps processing.
+        // Main thread does not need the result of the submitted task.
+    }
 }
