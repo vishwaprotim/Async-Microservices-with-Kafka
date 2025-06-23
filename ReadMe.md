@@ -2,7 +2,7 @@
 
 The below architecture has been implemented using SAGA design pattern. An example of Hexagonal Design pattern is also available in the code for Loan Service.
 
-![System Architecture](/Architecture.png)
+![System Architecture](/Architecture.jpg)
 
 ## Setting up Postgres (Port 8082)
 
