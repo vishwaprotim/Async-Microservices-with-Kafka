@@ -16,7 +16,7 @@ public class LoanServiceApplication {
 		SpringApplication.run(LoanServiceApplication.class, args);
 	}
 
-	@Bean
+	@Bean("HexagonalLoanService")
 	public HexagonalLoanService loanService(HexagonalLoanRepository repository, HexagonalKafkaTemplate kafkaTemplate){
 		return new HexagonalLoanService(repository, kafkaTemplate);
 	}
