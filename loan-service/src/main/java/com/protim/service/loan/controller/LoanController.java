@@ -4,8 +4,8 @@ package com.protim.service.loan.controller;
 import com.protim.service.loan.dao.LoanErrorResponse;
 import com.protim.service.loan.dao.LoanResponse;
 import com.protim.service.loan.dao.UserLoanDao;
-import com.protim.service.loan.entity.UserLoan;
-import com.protim.service.loan.service.LoanService;
+import com.protim.service.loan.db.UserLoan;
+import com.protim.service.loan.service.HexagonalLoanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Slf4j
 @RestController
 @RequestMapping("/loanservice")
-public record LoanController (LoanService service){
+public record LoanController (HexagonalLoanService service){
 
     @PostMapping("/apply")
     public ResponseEntity<LoanResponse> applyLoan(@RequestBody UserLoanDao userLoanDao){

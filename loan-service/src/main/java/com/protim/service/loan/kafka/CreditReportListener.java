@@ -1,7 +1,7 @@
 package com.protim.service.loan.kafka;
 
-import com.protim.service.loan.entity.UserLoan;
-import com.protim.service.loan.repository.LoanRepository;
+import com.protim.service.loan.db.UserLoan;
+import com.protim.service.loan.repository.HexagonalLoanRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
-public record CreditReportListener(LoanRepository repository) {
+public record CreditReportListener(HexagonalLoanRepository repository) {
 
     @KafkaListener(topics = "${spring.kafka.consumer.topic}")
     public void listen(ConsumerRecord<String, String> message) throws Exception {
@@ -29,8 +29,12 @@ public record CreditReportListener(LoanRepository repository) {
                 () -> new UnsupportedOperationException("Cannot find application id: " + loanApplicationId)
         );
 
-        loanApplication.setLoanStatus(status);
-        repository.save(loanApplication);
+        UserLoan updatedApplication = new UserLoan(
+                loanApplication.loanId(),
+                loanApplication.userId(),
+                loanApplication.userName(),
+                status);
+        repository.save(updatedApplication);
         return loanApplicationId;
     }
 }

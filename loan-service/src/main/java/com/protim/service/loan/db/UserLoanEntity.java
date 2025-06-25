@@ -1,4 +1,4 @@
-package com.protim.service.loan.entity;
+package com.protim.service.loan.db;
 
 
 import jakarta.persistence.*;
@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "user_loan")
-public class UserLoan {
+public class UserLoanEntity {
 
     @Column(name = "loan_id", length = 10)
     @Id
